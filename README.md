@@ -18,7 +18,6 @@ Also, if your using the bun server as an API, you can set the rate limit rules f
   curl -fsSL https://bun.sh/install | bash
   ```
 
-
 ## Firewall Setup (host provider):
   - Enable HTTPS port (443) to ONLY ACCEPT Cloudflare ivp4 IPs only ([cloudflare.com/ivp4](https://www.cloudflare.com/ips-v4/#)).
   - Remove RDP.
@@ -58,6 +57,7 @@ Also, if your using the bun server as an API, you can set the rate limit rules f
 ![step 5](/images/5.PNG)
 
 ## Bun server - Example - (index.js)
+ - Create a folder for server.
  - Put the cert.pem, key.pem, ca.pem at the ROOT of your bun server.
  ```
 // Main server function
@@ -85,6 +85,52 @@ export default {
 };
 ```
 
-## System.md Setup
+## Systemd Setup (for automatic restarts)
+>Find the full bun path. (replace $BUN in the service file with this later)
+```
+which bun
+```
+>Create the service file.
+```
+sudo nano /etc/systemd/system/bunserver.service
+```
+- You will need the working directory of your user /home/user. replace $DIR with this in the service file.
+- You will also need the full path to the file of your bun server such as (/home/user/mybunserver/index.js). replace $PATH with this in the service file.
+>Editing the service file.
+```
+[Unit]
+Description=Bun Server
+After=network.target
+
+[Service]
+ExecStart=$BUN $PATH
+WorkingDirectory=$DIR
+Restart=always
+RestartSec=10
+User=root
+Group=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+```
+>Reload the systemd daemon:
+```
+sudo systemctl daemon-reload
+```
+>Start the service:
+```
+sudo systemctl start bunserver.service
+```
+>Enable the service to start on boot:
+```
+sudo systemctl enable bunserver.service
+```
+>Check the status:
+```
+sudo systemctl status bunserver.service
+```
 
 ## Other
+- You can use the SetInterval in a running Bun Server (--watch) and the Github API w/ your API key to check the current version of your repo (every 30s), and if the repo is updated, you can make a script which updates your bun server dynamically.

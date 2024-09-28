@@ -1,2 +1,2 @@
-# bun-cf-deploy
-Quickly deploys a bun server with full Cloudflare protection
+# Quick Bun Cloudflare VPS
+Quickly deploy a bun server with full Cloudflare protection

@@ -1,10 +1,16 @@
-# Quick Bun Cloudflare VPS
+# Bun Cloudflare VPS
 This is a tutorial on how to setup a bun server on any VPS with full Cloudflare Protection / Origin Server. This does not have nginx because it is only hosting one bun server, and it doesn't need a reverse proxy because Cloudflare proxy is enabled. The host provider's firewall (default) or server firewall (fallback) only accepts Cloudflare IPs, forcing all traffic to go through Cloudflare, preventing possible DDoS attacks through port 443 if your server's IP was leaked. Script comming soon.
+
+Also, if your using the bun server as an API, you can set the rate limit rules from Cloudflare's WAF, so that the API requests never hit your server, if the rate limit is exceeded, preventing DDoS. You can also use Cloudflare's Turnstile to verify that the request is legit if's a public API.
+
+# Automatic Script Setup
+> Script coming soon.
 
 # Manual Setup
 
 ## Install Bun (linux)
 - Make sure unzip is installed
+- Make sure you are cd'd on the directory you can bun to install in.
   ```
   sudo apt install unzip
   ```
@@ -32,12 +38,24 @@ This is a tutorial on how to setup a bun server on any VPS with full Cloudflare 
   - SSL/TLS -> Origin Server -> Authenticated Origin Pulls -> Enabled
   - SSL/TLS -> Edge Certificates -> Always Use HTTPS -> Enabled (optional)
   - SSL/TLS -> Edge Certificates -> Minimum TLS Version -> TLS 1.1
-  - SSL/TLS -> Overview -> SSL/TLS encryption -> Configure -> Strict (SSL-Only Origin Pull)
+  - SSL/TLS -> Overview -> SSL/TLS encryption -> Configure -> Full Strict
   - SSL/TLS -> Enable HSTS. (optional)
 
 ## Download Origin CA cert for Bun (RSA Only)
   - https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/ - Full Article
   - ([Download Link / Pem](https://developers.cloudflare.com/ssl/static/origin_ca_rsa_root.pem)) - save as (ca.pem)
+
+## Cloudflare Certificate Detailed
+- SSL/TLS -> Origin Server -> Create Certificate
+![step 1](/images/1.PNG)
+- Use RSA 2048. Enter in the hostnames / subdomains you want to use for the SSL cert. Create.
+![step 2](/images/2.PNG)
+- Copy the origin certificate and save it to a text file as (cert.pem) and the private key as (key.pem)
+![step 3](/images/3.PNG)
+- Download the cloudflare Origin CA RSA cert and save it as (ca.pem)
+![step 4](/images/4.PNG)
+- SSL/TLS -> Overview -> SSL/TLS encryption -> Configure -> Full Strict
+![step 5](/images/5.PNG)
 
 ## Bun server - Example - (index.js)
  - Put the cert.pem, key.pem, ca.pem at the ROOT of your bun server.

@@ -59,6 +59,7 @@ Also, if your using the bun server as an API, you can set the rate limit rules f
 ![step 5](/images/5.PNG)
 
 ## Bun server - Example - (index.js)
+ - The bun server uses port 443.
  - Create a folder for server.
  - Put the cert.pem, key.pem, ca.pem at the ROOT of your bun server.
  ```

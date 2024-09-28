@@ -3,7 +3,7 @@ This is a setup on how to use a bun server on any VPS with full Cloudflare Prote
 - This does not have nginx because it is only hosting one bun server, and it doesn't need a reverse proxy because Cloudflare proxy is enabled. 
 - The host provider's firewall (default) or server firewall (fallback) only accepts Cloudflare IPs, forcing all traffic to go through Cloudflare, preventing possible DDoS attacks through port 443 if your server's IP was leaked.
 
-Also, if your using the bun server as an API, you can set the rate limit rules from Cloudflare's WAF, so that the API requests never hit your server, if the rate limit is exceeded, preventing DDoS. You can also use Cloudflare's Turnstile to verify that the request is legit if it's a public API.
+Also, if your using the bun server as an API, you can set the rate limit rules from Cloudflare's WAF (Security -> WAF -> Rate Limiting Rules), so that the API requests never hit your server, if the rate limit is exceeded, preventing DDoS. You can also use Cloudflare's Turnstile to verify that the request is legit if it's a public API.
 
 # Automatic Script Setup
 > Script coming soon.

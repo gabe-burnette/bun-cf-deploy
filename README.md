@@ -1,12 +1,11 @@
 # Bun Cloudflare VPS
-This is a setup on how to use a bun server on any VPS with full Cloudflare Protection & Origin Server SSL/TLS. 
+This is how to setup a single bun server on any VPS with full Cloudflare Protection & Origin Server SSL/TLS. 
 - This does not have nginx because it is only hosting one bun server, and it doesn't need a reverse proxy because Cloudflare proxy is enabled. 
 - The host provider's firewall (default) or server firewall (fallback) should only accept Cloudflare IPs, forcing all traffic to go through Cloudflare.
 
-Also, if your using the bun server as an API, you can set the rate limit rules from Cloudflare's WAF (Security -> WAF -> Rate Limiting Rules), so that the API requests never hit your server, if the rate limit is exceeded, preventing DDoS. You can also use Cloudflare's Turnstile to verify that the request is legit if it's a public API.
+> Note: This may become irrelevant, Cloudflare is always changing. Please take this with a grain of salt and do your own research. (1/17/25)
 
-# Automatic Script Setup
-> Script coming soon.
+Also, if your using the bun server as an API, you can set the rate limit rules from Cloudflare's WAF (Security -> WAF -> Rate Limiting Rules), so that the API requests never hit your server. You can also use Cloudflare's Turnstile to verify that the request is legit.
 
 # Manual Setup
 
@@ -22,7 +21,7 @@ Also, if your using the bun server as an API, you can set the rate limit rules f
 
 ## Firewall Setup (host provider):
   - Enable HTTPS port (443) to ONLY ACCEPT Cloudflare ivp4 IPs only ([cloudflare.com/ivp4](https://www.cloudflare.com/ips-v4/#)).
-  - Remove RDP.
+  - Remove RDP (optional).
   - Disable / Remove ICMP (optional).
   - Set SSH access to your home IP. (or use cf tunnels in conjunction)
   - Beware of any other ports your provider may have opened.
